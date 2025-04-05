@@ -1,0 +1,79 @@
+.TH FSTR 1 2025-04-06 "FSTR 0.1.0"
+.
+.SH NAME
+.P
+fstr \- substitute placeholders in strings
+.
+.SH SYNOPSIS
+.
+.SY fstr
+<str> [<name> <replacement> ...]
+.YS
+.
+.SH DESCRIPTION
+.P
+There are times when a shell script needs to allow the user to set custom string values that may include variable content. \fB\%fstr\fR makes use of named placeholders that can be included in a string and substituted with computed values at a later point in the script.
+.
+.TP
+<str>
+A string with placeholders.
+.sp
+The placeholder format is:
+.
+.RS
+.TP
+(1)
+\%%<name>
+.sp
+or
+.TP
+(2)
+\%%{<name>:-<fallback>:+<override>}
+.sp
+\%:-<fallback> and \%:+<override> are optional and may go in any order.
+.
+.P
+\%<name> is a placeholder name to match a \%<name> defined via command line arguments. It may consist of one or more alphanumeric characters and underscores.
+.sp
+\%<fallback> and \%<override> are also strings with placeholders just like \%<str>.
+.sp
+\%<fallback> is substituted if command line arguments do not define \%<name> and its \%<replacement>.
+.sp
+\%<override> is substituted instead of \%<replacement> allowing to, for instance, insert extra characters next to \%<replacement>.
+.sp
+In strings with placeholders \%(<str>, \%<fallback>, \%<override>), \%'\\', \%'%', \%'{', \%':', and \%'}' are special characters. They can be escaped with backslashes \%('\\') to represent their literal values.
+.RE
+.
+.TP
+\%<name>
+A placeholder name. May consist of one or more alphanumeric characters and underscores.
+.
+.TP
+\%<replacement>
+A placeholder replacement. This is a literal string\~\(em unlike \%<str>, \%<fallback>, and \%<override> which are strings with placeholders.
+.
+.SH FILES
+.
+.TP
+fstr.lua
+The main Lua script.
+.TP
+fstr
+A shell wrapper for 'fstr.lua'. 
+.TP
+tools/generate-bash-function
+Outputs a Bash function based on 'fstr.lua'.
+.
+.SH AUTHOR
+.P
+Alex Rogers \%<https://github.com/\:linguisticmind>
+.
+.SH HOMEPAGE
+.P
+\%<https://github.com/\:linguisticmind/\:fstr>
+.
+.SH COPYRIGHT
+.P
+Copyright © 2025 Alex Rogers. License GPLv3+: GNU GPL version 3 or later \%<https://gnu.org/\:licenses/\:gpl.html>.
+.P
+This is free software: you are free to change and redistribute it. There is NO WARRANTY, to the extent permitted by law.

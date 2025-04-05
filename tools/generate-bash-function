@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# fstr - substitute placeholders in strings
+# copyright (c) 2025  Alex Rogers (https://github.com/linguisticmind)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+declare -- script_source=$(realpath -- "${BASH_SOURCE[0]}")
+declare -- script_dir="$(dirname -- "$script_source")"
+
+declare -- project_root="${script_dir%/tools}"
+
+declare -- nonopt_fstr_lua="${1:-$project_root/fstr.lua}"
+
+if [[ ! -f $nonopt_fstr_lua ]]; then
+  printf '%s\n' "File ${nonopt_fstr_lua@Q} not found." >&2
+  exit 1
+fi
+
+cat << 'EOF'
+# fstr - substitute placeholders in strings
+# copyright (c) 2025  Alex Rogers (https://github.com/linguisticmind)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+function fstr {
+
+  { type -P lua5.4 || type -P lua; } &> /dev/null && "$_" <(printf '%s' '
+
+EOF
+
+sed -Enf - "$nonopt_fstr_lua" << 'EOF'
+
+  1 {
+    :a /^--|^\s*$/ { n; b a }
+  }
+
+  s/'/"/g
+  s/^/    /
+
+  p
+
+EOF
+
+cat << 'EOF'
+
+  ') "$@"
+
+}
+EOF
