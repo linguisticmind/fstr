@@ -16,7 +16,7 @@
 
 if #arg == 0 then
   io.stderr:write('fstr: fstr <str> [<name> <replacement> ...]\n')
-  io.stderr:write('version: 0.1.0\n')
+  io.stderr:write('version: 0.1.1\n')
   os.exit(1)
 end
 
@@ -53,7 +53,7 @@ function string:fstr_match()
 
   end
 
-  replacement = override or replacements[name] or fallback
+  replacement = replacements[name] and override or replacements[name] or fallback
 
   if replacement ~= nil then return true else
     io.stderr:write('fstr: unable to replace %{' .. name .. '}\n')
