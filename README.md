@@ -2,6 +2,10 @@
 
 There are times when a shell script needs to allow the user to set custom string values that may include variable content. `fstr` makes use of named placeholders that can be included in a string and substituted with computed values at a later point in the script.
 
+Video tutorial:
+
+[![Mindful Technology - [Bash scripting] fstr: like printf but with named placeholders and more](https://img.youtube.com/vi/Wxe49-YxBYI/0.jpg)](https://www.youtube.com/watch?v=Wxe49-YxBYI)
+
 <a href='https://ko-fi.com/linguisticmind'><img src='https://github.com/linguisticmind/linguisticmind/raw/master/res/kofi/kofi_donate_1.svg' alt='Support me on Ko-fi' height='48'></a>
 
 ## Changelog
